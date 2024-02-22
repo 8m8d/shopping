@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.DAO.cartMapper">
+	<select id="myCartList" resultType="com.example.demo.DTO.cartDTO">
+		SELECT 
+				c.cartNo, c.cartQuantity, m.memberId, i.itemNo, i.itemTitle, i.itemPrice, i.itemDiscount, i.imgFileName, i.imgFilePath
+		FROM 
+				cart c Left Join member m on c.memberId = m.memberId Left Join item i on i.itemNo = c.itemNo
+		WHERE 
+				m.memberId = #{memberId}
+	</select>
+	
+	<select id="getCartItem" resultType="com.example.demo.DTO.cartDTO">
+		SELECT c.cartNo, c.cartQuantity, i.itemNo, i.itemTitle, i.itemPrice, i.itemDiscount, i.imgFileName, i.imgFilePath
+		FROM cart c Left Join item i on i.itemNo = c.itemNo
+		WHERE cartNo = #{cartNo}
+	</select>
+	
+	<select id="cartItemCheck">
+		SELECT COUNT(*)
+		FROM cart
+		WHERE itemNo = #{itemNo}
+		AND memberId = #{memberId}
+	</select>
+	
+	<insert id="addCart" parameterType="com.example.demo.DTO.cartDTO">
+		INSERT INTO cart(cartQuantity, memberId, itemNo)
+		VALUES (#{cartQuantity}, #{memberId}, #{itemNo})
+	</insert>
+	
+	<update id="cartQuantityUpdate" parameterType="com.example.demo.DTO.cartDTO">
+		UPDATE cart
+		SET cartQuantity = #{cartQuantity}
+		WHERE cartNo = #{cartNo}
+	</update>
+	
+	<delete id="cartItemDelete" parameterType="com.example.demo.DTO.cartDTO">
+		DELETE
+		FROM cart
+		WHERE cartNo = #{cartNo}
+	</delete>
+
+	<delete id="cartListDelete" parameterType="com.example.demo.DTO.cartDTO">
+		DELETE
+		FROM cart
+		WHERE cartNo = #{cartNo}
+	</delete>
+	
+</mapper>

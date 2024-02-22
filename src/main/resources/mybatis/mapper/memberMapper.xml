@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.DAO.memberMapper">
+	<select id="memberAll" resultType="com.example.demo.DTO.memberDTO">
+		SELECT *
+		FROM member
+		ORDER BY memberSignUpDate
+	</select>
+	
+	<select id="signInOk" resultType="com.example.demo.DTO.memberDTO" parameterType="com.example.demo.DTO.memberDTO">
+		SELECT *
+		FROM member
+		WHERE memberId = #{memberId} AND memberPassword = #{memberPassword}
+	</select>
+	
+	<insert id="signUpOk" parameterType="com.example.demo.DTO.memberDTO">
+		INSERT INTO member(memberId, memberPassword, memberPasswordCheck, memberName, memberPhone, memberEmail, memberReferenceId, memberSignUpDate, memberPostcode, memberAddress, memberDetailAddress, memberExtraAddress)
+		VALUES(#{memberId}, #{memberPassword}, #{memberPasswordCheck}, #{memberName}, #{memberPhone}, #{memberEmail}, #{memberReferenceId}, now(), #{memberPostcode}, #{memberAddress}, #{memberDetailAddress}, #{memberExtraAddress})
+	</insert>
+	<select id="idCheck" resultType="int">
+		SELECT COUNT(*)
+		FROM member
+		WHERE memberId = #{memberId}
+		FOR UPDATE
+	</select>
+	
+	<select id="memberInfo">
+		SELECT *
+		FROM member
+		WHERE memberId = #{memberId}
+	</select>
+	
+	<update id="myPageUpdate" parameterType="com.example.demo.DTO.memberDTO">
+		UPDATE member SET
+			memberName = #{memberName}, 
+			memberPassword = #{memberPassword}, 
+			memberPasswordCheck = #{memberPasswordCheck}, 
+			memberPhone = #{memberPhone}, 
+			memberEmail = #{memberEmail}, 
+			memberPostcode = #{memberPostcode}, 
+			memberAddress = #{memberAddress}, 
+			memberDetailAddress = #{memberDetailAddress}, 
+			memberExtraAddress = #{memberExtraAddress}
+		WHERE memberId = #{memberId}
+	</update>
+	
+	<update id="memberPointUpdate" parameterType="com.example.demo.DTO.memberDTO">
+	UPDATE member
+	SET memberPoint = #{memberPoint}
+	WHERE memberId = #{memberId}
+	</update>
+	
+</mapper>

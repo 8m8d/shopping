@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.DAO.orderDetailMapper">
+	
+	<select id="orderDetailList" resultType="com.example.demo.DTO.orderDetailDTO">
+		SELECT *
+		FROM orderdetail
+		WHERE orderNo = #{orderNo}
+	</select>
+	
+	<select id="orderCount">
+		SELECT count(itemNo)
+		FROM orderdetail
+		WHERE orderNo = #{orderNo}
+	</select>
+	
+	<insert id="insertOrder">
+		INSERT INTO orderdetail (orderNo, itemNo, orderDetailQuantity, orderDetailAmount)
+		VALUES (#{orderNo}, #{itemNo}, #{orderDetailQuantity}, #{orderDetailAmount})
+	</insert>
+	
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.DAO.itemMapper">
+	<select id="selectAll" resultType="com.example.demo.DTO.itemDTO">
+		SELECT *
+		FROM item
+	</select>
+	
+	<select id="searchItem" resultType="com.example.demo.DTO.itemDTO">
+		SELECT *
+		FROM item
+		WHERE itemTitle LIKE concat('%',#{itemTitle},'%')
+	</select>
+	
+	<select id="detailOne" resultType="com.example.demo.DTO.itemDTO">
+		SELECT *
+		FROM item
+		WHERE itemNo = #{itemNo}
+	</select>
+	
+	<insert id="addItem" parameterType="com.example.demo.DTO.itemDTO">
+		INSERT INTO item(itemTitle, itemPrice, itemDiscount, imgFileName, imgFilePath)
+		VALUES (#{itemTitle}, #{itemPrice}, #{itemDiscount}, #{imgFileName}, #{imgFilePath})
+	</insert>
+	
+	<update id="itemUpdate" parameterType="com.example.demo.DTO.itemDTO">
+	UPDATE item 
+	SET
+		itemTitle = #{itemTitle}, 
+		itemPrice = #{itemPrice}, 
+		itemDiscount = #{itemDiscount}, 
+		imgFileName = #{imgFileName}, 
+		imgFilePath = #{imgFilePath}
+	WHERE 
+		itemNo = #{itemNo}
+		
+	</update>
+</mapper>

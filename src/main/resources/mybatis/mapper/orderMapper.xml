@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.DAO.orderMapper">
+	<select id="orderSelectAll" resultType="com.example.demo.DTO.orderDTO">
+		SELECT o.orderStatus, o.orderNo, o.orderDate, o.orderTotalPrice, MAX(i.imgFilePath) AS imgFilePath,
+				CASE
+					WHEN COUNT(i.itemNo) > 1
+					THEN CONCAT(SUBSTRING_INDEX(GROUP_CONCAT(i.itemTitle ORDER BY i.itemTitle ASC), ',', 1), ' 외 ', COUNT(i.itemNo) - 1, '개')
+					ELSE GROUP_CONCAT(i.itemTitle)
+				END AS itemTitle
+		FROM `order` o
+		LEFT Join orderdetail od ON o.orderNo = od.orderNo
+		LEFT Join item i on i.itemNo = od.itemNo
+		WHERE o.memberId = #{memberId}
+		GROUP BY o.orderNo;
+	</select>
+	
+	<insert id="addOrder" parameterType="com.example.demo.DTO.orderDTO" useGeneratedKeys="true" keyProperty="orderNo">
+    	INSERT INTO `order`(orderDate, recipientName, recipientPhone, deliveryPostcode, deliveryAddress, deliveryDetailAddress, deliveryExtraAddress, orderStatus, orderPoint, deliveryCharge, orderTotalPrice, memberId)
+    	VALUES(now(), #{recipientName}, #{recipientPhone}, #{deliveryPostcode}, #{deliveryAddress}, #{deliveryDetailAddress}, #{deliveryExtraAddress} ,#{orderStatus}, #{orderPoint}, #{deliveryCharge}, #{orderTotalPrice}, #{memberId})
+	</insert>
+	
+	<delete id="orderListDelete" parameterType="com.example.demo.DTO.orderDTO">
+		DELETE
+		FROM `order`
+		WHERE orderNo = #{orderNo}
+	</delete>
+</mapper>
