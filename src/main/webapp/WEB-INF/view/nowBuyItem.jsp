@@ -204,9 +204,9 @@ table {
             var PointBenefitAmount = parseInt($("#PointBenefitAmount").text().replace(/[^0-9]/g, ""));
             var memberPoint = parseInt($("#memberPoint").text().replace(/[^0-9]/g, ""));
             var deliveryCharge = parseFloat($("#deliveryCharge").text().replace(/[^0-9]/g, ""));
-
-            $("[id^='orderItemInfoPrice_']").each(function(index) {
-                var itemPrice = parseFloat($("#orderItemInfoPrice_" + index).text().replace(/[^0-9]/g, ''));
+            $("#orderItemInfoPrice").each(function(index) {
+                var itemPrice = parseFloat($("#orderItemInfoPrice").text().replace(/[^0-9]/g, ''));
+                console.log(itemPrice);
                 itemPriceTotalSum += itemPrice;
                 orderPriceSum = itemPriceTotalSum + deliveryCharge;
                 var paymentedPoint = (memberPoint - orderPriceSum) + PointBenefitAmount;
@@ -228,6 +228,8 @@ table {
             	var deliveryDetailAddress = document.getElementById("deliveryDetailAddress").innerText;
             	var deliveryExtraAddress = document.getElementById("deliveryExtraAddress").innerText;
             	var deliveryCharge = document.getElementById("deliveryCharge").innerText.replace(/[^0-9]/g,"");
+            	var itemNo = document.getElementById("itemNo").value;
+            	var cartQuantity = document.getElementById("cartQuantity").value;
             	
             	console.log("recipientName : " + recipientName);
             	console.log("recipientPhone : " + recipientPhone);
@@ -247,7 +249,7 @@ table {
 
                 if (finalPoint >= 0) {
                     $.ajax({
-                        url: "orderFinal",
+                        url: "orderFinal2",
                         type: "post",
                         data: {
                             memberPoint: finalPoint,
@@ -258,7 +260,10 @@ table {
                             deliveryAddress : deliveryAddress,
                             deliveryDetailAddress : deliveryDetailAddress,
                             deliveryExtraAddress : deliveryExtraAddress,
-                            deliveryCharge : deliveryCharge
+                            deliveryCharge : deliveryCharge,
+                            orderTotalPrice : itemPriceTotalSum,
+                            itemNo : itemNo,
+                            cartQuantity : cartQuantity,
                         },
                         success: function() {
                             console.log("주문완료");
@@ -286,7 +291,6 @@ table {
 <div class="container mt-5">
     <div class="row justify-content">
         <div class="col-md-8">
-            
              <div class="accordion" id="accordionExample">
                 <!-- Delivery Address Section -->
                 <div class="accordion-item">
@@ -343,23 +347,23 @@ table {
                         </button>
                     <div id="collapseorderItemInfo" class="accordion-collapse collapse show" aria-labelledby="orderItemInfoHeading" data-bs-parent="#accordionExample3">
                         <div class="accordion-body">
-	                        		<c:forEach var="cartItems" items="${cartItems}" varStatus="loop">
-                        	<div class="orderItemInfoArea row" data-cartNo="${cartItems.cartNo}">
+                        	<div class="orderItemInfoArea row" data-cartNo="${itemDTO.itemNo}">
+                        	<input type="hidden" name="itemNo" id="itemNo" value="${itemDTO.itemNo }" />
 	                        	<span class="col-md-2">
-	                        		<a href="itemDetail?itemNo=${cartItems.itemNo }"><img class="itemImg" src="../${cartItems.imgFilePath}" alt="" /></a>
+	                        		<a href="itemDetail?itemNo=${itemDTO.itemNo}"><img class="itemImg" src="../${itemDTO.imgFilePath}" alt="" /></a>
 	                        	</span>
 	                        	<div class="col-md-10">
 	                        		<p></p>
-								        <a href="itemDetail?itemNo=${cartItems.itemNo}"><span style="color: #5E5E5E; font-weight: bold;">${cartItems.itemTitle}</span></a>
+								        <a href="itemDetail?itemNo=${itemDTO.itemNo}"><span style="color: #5E5E5E; font-weight: bold;">${itemDTO.itemTitle }</span></a>
 		                        	<div>
-		                        		<span class="orderItemInfoQuantity">주문수량 : ${cartItems.cartQuantity}개</span>
+		                        		<input type="hidden" name="cartQuantity" id="cartQuantity" value="${cartQuantity}" />
+		                        		<span class="orderItemInfoQuantity">주문수량 : ${cartQuantity}개</span>
 		                        	</div>
-		                        	<span class="orderItemInfoPrice" id="orderItemInfoPrice_${loop.index }" >
-		                        		<f:formatNumber value="${(cartItems.itemPrice - (cartItems.itemPrice * cartItems.itemDiscount / 100))*cartItems.cartQuantity}" pattern="#,###원"></f:formatNumber>
+		                        	<span class="orderItemInfoPrice" id="orderItemInfoPrice" >
+		                        		<f:formatNumber value="${(itemDTO.itemPrice - (itemDTO.itemPrice * itemDTO.itemDiscount / 100))*cartQuantity}" pattern="#,###원"></f:formatNumber>
 		                        	</span>
 	                        	</div>
                         	</div>
-								    </c:forEach>
                         </div>
                     </div>
                 </div>

@@ -76,14 +76,14 @@ a:hover{
 				<div class="address-container">
 					<address class="address">
 						&copy; 상호명 및 호스팅 서비스 제공 : PS TEAM <br>
-						대표 : 정준석 <br>
+						대표 : TESTER <br>
 						경기도 부천시 양지로 237 광양프런티어밸리 5차 지식산업센터 312호 <br>
-						사업자등록번호 : 192-07-02081 <br>
-						통신판매신고번호 : 2023-경기부천-2323호
+						사업자등록번호 : 111-11-11111 <br>
+						통신판매신고번호 : 2024-경기부천-1111호
 					</address>
 					<div class="contact-info">
 						<strong>C/S CENTER</strong><br>
-						<div style="font-size: 25px; font-weight: bold;">032-348-1288</div>
+						<div style="font-size: 25px; font-weight: bold;">032-111-1111</div>
 						<p style="font-size: 12px;">평일 10:00am ~ 18:00pm</p>
 					</div>
 					<div class="galaxisImg"><img src="https://payimg.billgate.net/galaxia/img/escrow/BN_galaxiaEscrow_m.gif" alt="" style="width: 340px;height: 80px;"/></div>

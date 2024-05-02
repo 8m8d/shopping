@@ -4,9 +4,11 @@
 <mapper namespace="com.example.demo.DAO.orderDetailMapper">
 	
 	<select id="orderDetailList" resultType="com.example.demo.DTO.orderDetailDTO">
-		SELECT *
-		FROM orderdetail
-		WHERE orderNo = #{orderNo}
+		SELECT od.orderDetailQuantity, od.orderDetailAmount, od.itemNo, i.itemTitle, i.imgFilePath, o.orderDate 
+		FROM orderdetail od 
+			LEFT JOIN item i on od.itemNo = i.itemNo 
+			LEFT JOIN `order` o on od.orderNo = o.orderNo
+		WHERE od.orderNo = #{orderNo}
 	</select>
 	
 	<select id="orderCount">

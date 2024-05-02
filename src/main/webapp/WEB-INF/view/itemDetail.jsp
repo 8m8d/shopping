@@ -52,7 +52,7 @@ input::-webkit-inner-spin-button {
 	margin-top: 20px;
 	font-size: 20px;
 }
-#totalPirceArea{
+#totalPriceArea{
 	margin-left: 230px;
 	color: #6b90dc;
 	font-size: 30px;
@@ -72,26 +72,42 @@ img{
 }
 </style>
 <script>
-// 	$(function(){
-// 		var checkArr = [];
-// 		$("#buyBtn").on("click",function(){
-// 			var itemNo =document.getElementById("itemNo").value;
-// 			console.log(itemNo);
-// 			$.ajax({
-// 				url : "nowBuyItem",
-// 				type : "get",
-// 				data : {
-// 					chkbox : itemNo
-// 				},
-// 				success : function(){
-// 					console.log("성공")
-// 					location.href = "nowBuyItem"
-// 				},error : function(){
-// 					console.log("에러")
-// 				}
-// 			})
-// 		})
-// 	})
+
+$(function(){
+    var checkArr = [];
+    $("#buyBtn").on("click",function(){
+        var itemNo = document.getElementById("itemNo").value;
+        var cartQuantity = document.getElementById("cartQuantity").value;
+        var deliveryCharge = document.getElementById("deliveryCharge").value;
+        var totalPriceArea = document.getElementById("totalPriceArea").innerText; // 수정된 부분
+        var totalPrice = parseFloat(totalPriceArea.replace(/[^0-9]/g,''));
+        var buyItemPoint = Math.round(totalPrice / 100);
+        console.log(buyItemPoint);
+        if(totalPrice >= 30000){
+        	deliveryCharge = 0;
+        }else{
+        	deliveryCharge = 3000;
+        	
+        }
+        console.log(totalPrice);
+        $.ajax({
+            url : "nowBuyItem",
+            type : "get",
+            data : {
+                itemNo : itemNo,
+                cartQuantity : cartQuantity,
+                deliveryCharge : deliveryCharge,
+                buyItemPoint : buyItemPoint
+            },
+            success : function(response){
+                console.log("성공")
+            	location.href="nowBuyItem?itemNo=" + itemNo + "&cartQuantity="+cartQuantity + "&deliveryCharge="+deliveryCharge + "&buyItemPoint="+buyItemPoint;
+            },error : function(){
+                console.log("에러")
+            }
+        })
+    })
+})
 </script>
 <body>
 <form action="addCart" id="frm" method="post" target="iframeParam">
@@ -148,8 +164,10 @@ img{
 				</div>
 				
 				<div class="totalPrice">총 상품 금액
-					<span id="totalPirceArea">${discountedPrice}원</span>
+					<span id="totalPriceArea">${discountedPrice}원</span>
 				</div>
+				<input type="hidden" name="deliveryCharge" id="deliveryCharge" value=""/>
+				<input type="hidden" name="buyItemPoint" id="buyItemPoint" value=""/>
 			</div>
 		</div>
 	</div>
@@ -220,7 +238,7 @@ $(document).ready(function(){
             	document.getElementById("cartQuantity").value = 10000;
             }
             var totalPrice = itemPrice * qty;
-            document.getElementById("totalPirceArea").innerText = totalPrice.toLocaleString()+"원";
+            document.getElementById("totalPriceArea").innerText = totalPrice.toLocaleString()+"원";
         }, 100);  // 1000ms (1초) 간격으로 코드를 실행합니다.
     });
 </script>

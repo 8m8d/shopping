@@ -1,5 +1,7 @@
 package com.example.demo.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,19 @@ public class orderService {
 	}
 	
 	public int addOrder(orderDTO dto) {
+	    Date date = new Date();
+	    SimpleDateFormat format = new SimpleDateFormat("yyHHmmss");
+	    int orderNo = Integer.parseInt(format.format(date));
+	    dto.setOrderNo(orderNo);
 	    orderMapper.addOrder(dto);
 	    return dto.getOrderNo();
 	}
 	
 	public void orderListDelete(int orderNo) {
 		orderMapper.orderListDelete(orderNo);
+	}
+	
+	public orderDTO selectOne(int orderNo) {
+		return orderMapper.selectOne(orderNo);
 	}
 }

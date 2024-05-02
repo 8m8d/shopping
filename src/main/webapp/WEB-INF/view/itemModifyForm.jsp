@@ -309,6 +309,7 @@ $(function() {
 		        <div class="form-group">
 		            <label for="productImage">상품 이미지</label>
 		            <input type="file" class="form-control" id="imgFile" name="imgFile" >
+		            <input type="text" name="imgFile" id="imgFile"/>
 		        </div>
 		        <div class="text-center">
 		       	 	<button type="submit" class="btn btn-primary" onclick="addItemOk()" style="margin-top: 20px;">상품 추가</button>

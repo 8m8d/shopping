@@ -14,4 +14,8 @@ public class orderDetailDTO {
 	private int itemNo;
 	private int orderDetailQuantity;
 	private int orderDetailAmount;
+	
+	private String itemTitle;
+	private String imgFilePath;
+	private String orderDate;
 }

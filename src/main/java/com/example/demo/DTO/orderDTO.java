@@ -29,4 +29,6 @@ public class orderDTO {
 	private String itemTitle;
 	
 	private List<orderDetailDTO> orderDetail;
+	
+	private int cartQuantity;
 }

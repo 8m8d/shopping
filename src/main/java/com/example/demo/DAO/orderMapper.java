@@ -19,4 +19,6 @@ public interface orderMapper {
 	
 	 // 주문 취소
 	public void orderListDelete(int orderNo); 
+	
+	public orderDTO selectOne(int orderNo);
 }

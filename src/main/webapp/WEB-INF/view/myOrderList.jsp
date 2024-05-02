@@ -89,18 +89,22 @@
 	$(function(){
 		$(".orderDeleteBtn").on("click",function(){
 			var orderNo = $(this).val();
+			var orderTotalPrice = $(this).closest(".order-item").find("#orderTotalPrice").val();
+			var deliveryCharge =$(this).closest(".order-item").find("#deliveryCharge").val();
 			if(confirm("해당 주문을 취소 하시겠습니까?")){
 				
 				$.ajax({
 					url:"myOrderListDelete",
 					type:"get",
 					data:{
-						orderNo : orderNo
+						orderNo : orderNo,
+						orderTotalPrice : orderTotalPrice,
+						deliveryCharge : deliveryCharge
 					},
 					success : function(){
-					},error : function(){
 						alert("해당 주문이 삭제 되었습니다.");
 						location.href = "myOrderList";
+					},error : function(){
 					}
 				})
 			}
@@ -134,8 +138,10 @@
 							<div>
 							${order.itemTitle}
 							</div>
+							<input type="hidden" name="orderTotalPrice" id="orderTotalPrice" value="${order.orderTotalPrice}"/>
+							<input type="hidden" name="deliveryCharge" id="deliveryCharge" value="${order.deliveryCharge}"/>
 							<div class="orderPriceInfoArea">
-								<f:formatNumber
+								<f:formatNumber 
 									value="${order.orderTotalPrice + order.deliveryCharge}"
 									pattern="#,###원"></f:formatNumber>
 							</div>

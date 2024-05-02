@@ -59,5 +59,5 @@ public class memberDTO {
 	
 	private String memberExtraAddress;
 	
-	private int memberPoint;
+	private long memberPoint;
 }
